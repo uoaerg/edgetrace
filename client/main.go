@@ -76,13 +76,13 @@ func main() {
 
 	fmt.Printf("received token:\n %+v\n", token)
 
-	bar := pb.StartNew(10 * len(dscp_map))
 	conn, err := net.Dial("udp", "trace.enoti.me:60606")
 
 	start := time.Now()
 	send_count := 10
 
 	fmt.Println("Sending Datagrams")
+	bar := pb.StartNew(10 * len(dscp_map))
     for _, mark := range dscp_map {
 		token.DSCP = mark.Value
 
@@ -102,8 +102,8 @@ func main() {
 			bar.Increment()
 		}
 
-		conn.Close()
 	}
+	conn.Close()
 
 	fmt.Printf("%v Datagrams representing %v DSCP Marks sent in %v\n", 
 		len(dscp_map) * send_count,
