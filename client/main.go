@@ -8,7 +8,9 @@ import (
 	"encoding/json"
 	"net"
 	"time"
+
 	"golang.org/x/net/ipv4"
+	"gopkg.in/cheggaaa/pb.v1"
 )
 
 type TokenCookie struct {
@@ -51,11 +53,13 @@ func main() {
 		{Name:"AF43", Value:0x26},
 	}
 
+	fmt.Printf("connecting to %s .  .  . ", url)
 	res, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	fmt.Printf(". . ... done\n")
 	data, err := ioutil.ReadAll(res.Body)
 
 	res.Body.Close()
@@ -70,15 +74,18 @@ func main() {
 		fmt.Println("error:", err)
 	}
 
-	fmt.Printf("%+v\n", token)
+	fmt.Printf("received token:\n %+v\n", token)
 
+	bar := pb.StartNew(10 * len(dscp_map))
+	conn, err := net.Dial("udp", "trace.enoti.me:60606")
+
+	start := time.Now()
+	send_count := 10
+
+	fmt.Println("Sending Datagrams")
     for _, mark := range dscp_map {
-		conn, err := net.Dial("udp", "trace.enoti.me:60606")
-		fmt.Println("Created UDP Connection")
-
-		fmt.Printf("sending mark: %v\n", mark.Value)
-
 		token.DSCP = mark.Value
+
 		if err := ipv4.NewConn(conn).SetTOS(token.DSCP); err != nil {
 			// error handling
 		}
@@ -88,13 +95,20 @@ func main() {
 			return
 		}
 
-		for i := 1; i <= 10; i++ {	
+		for i := 1; i <= send_count ; i++ {	
 			token.Time = time.Now().UTC().Format("20060102150405")    
 
 			json.NewEncoder(conn).Encode(token)
-			time.Sleep(time.Millisecond * 100)
+			time.Sleep(time.Millisecond * 200)
+			bar.Increment()
 		}
 
 		conn.Close()
 	}
+
+	fmt.Printf("%v Datagrams representing %v DSCP Marks sent in %v seconds\n", 
+		len(dscp_map) * send_count,
+		len(dscp_map), 
+		time.Since(start))
+	fmt.Println("Thank you for helping make the internet better")
 }
