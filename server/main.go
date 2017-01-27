@@ -37,12 +37,6 @@ func start(res http.ResponseWriter, req *http.Request) {
 	host := req.Header.Get("X-Real-IP")
 	time := time.Now().UTC().Format("20060102150405")
 
-	//token := host + time + salt
-
-	//hash := sha1.New()
-	//hash.Write([]byte(token))
-	//sekret := base64.StdEncoding.EncodeToString(hash.Sum(nil))
-
 	sekret := calcsekret(host, time, salt)	
 
 	cookie := TokenCookie{Host: host, Time: time, Token: sekret}
@@ -96,18 +90,21 @@ func udplisten() {
         n,addr,err := conn.ReadFromUDP(data)
 
 		var token TokenCookie                        
-		err = json.Unmarshal(data, &token)           
+		err = json.Unmarshal(data[0:n], &token)           
 													 
 		if err != nil {                              
 			fmt.Println("error:", err)               
 		}                                            
 
-		send_token = calcsekret(token.host, token.time, salt)
+		recv_token := calcsekret(token.Host, token.Time, salt)
 
-		fmt.Printf("received token:\n %+v\n", token) 
+		//fmt.Printf("received token:\n %+v\n", token) 
+		//fmt.Println(recv_token)
+		//fmt.Println(token.Token)
+
 		if recv_token == token.Token {
-			fmt.Println("Received ",string(data[0:n]), " from ",addr)
-			//fmt.Printf("UDP DATAGRAM: %v",cookie)
+//			fmt.Println("Received ",string(data[0:n]), " from ",addr)
+			fmt.Printf("UDP DATAGRAM from: %v: %v\n", addr, token)
 		}
 
         if err != nil {
