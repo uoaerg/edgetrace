@@ -87,7 +87,8 @@ func main() {
 		token.DSCP = mark.Value
 
 		if err := ipv4.NewConn(conn).SetTOS(token.DSCP); err != nil {
-			// error handling
+			fmt.Printf("Some error %v", err)
+			return
 		}
 
 		if err != nil {
@@ -96,8 +97,6 @@ func main() {
 		}
 
 		for i := 1; i <= send_count ; i++ {	
-			token.Time = time.Now().UTC().Format("20060102150405")    
-
 			json.NewEncoder(conn).Encode(token)
 			time.Sleep(time.Millisecond * 200)
 			bar.Increment()
