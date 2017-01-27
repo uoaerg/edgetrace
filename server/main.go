@@ -87,10 +87,10 @@ func udplisten() {
     data := make([]byte, 1024)
  
     for {
-        n,addr,err := conn.ReadFromUDP(data)
+        size, addr, err := conn.ReadFromUDP(data)
 
 		var token TokenCookie                        
-		err = json.Unmarshal(data[0:n], &token)           
+		err = json.Unmarshal(data[0:size], &token)           
 													 
 		if err != nil {                              
 			fmt.Println("error:", err)               
@@ -98,12 +98,7 @@ func udplisten() {
 
 		recv_token := calcsekret(token.Host, token.Time, salt)
 
-		//fmt.Printf("received token:\n %+v\n", token) 
-		//fmt.Println(recv_token)
-		//fmt.Println(token.Token)
-
 		if recv_token == token.Token {
-//			fmt.Println("Received ",string(data[0:n]), " from ",addr)
 			fmt.Printf("UDP DATAGRAM from: %v: %v\n", addr, token)
 		}
 
