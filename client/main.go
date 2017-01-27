@@ -106,7 +106,7 @@ func main() {
 		conn.Close()
 	}
 
-	fmt.Printf("%v Datagrams representing %v DSCP Marks sent in %v seconds\n", 
+	fmt.Printf("%v Datagrams representing %v DSCP Marks sent in %v\n", 
 		len(dscp_map) * send_count,
 		len(dscp_map), 
 		time.Since(start))
