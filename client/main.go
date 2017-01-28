@@ -117,8 +117,8 @@ func main() {
 			time.Sleep(time.Millisecond * 200)
 			bar.Increment()
 		}
-		bar.Finish()
 	}
+	bar.Finish()
 	conn.Close()
 
 	fmt.Printf("%v Datagrams representing %v DSCP Marks sent in %v\n", 
