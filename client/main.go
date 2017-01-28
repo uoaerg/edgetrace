@@ -101,7 +101,7 @@ func main() {
 			time.Sleep(time.Millisecond * 200)
 			bar.Increment()
 		}
-
+		bar.Finish()
 	}
 	conn.Close()
 
