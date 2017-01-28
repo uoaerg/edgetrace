@@ -17,6 +17,7 @@ type TokenCookie struct {
 	Time  string `json:"time"`
 	Token string `json:"token"`
 	DSCP  int    `json:"dscp"`
+	Description string `json:"description"`
 }
 
 var salt string

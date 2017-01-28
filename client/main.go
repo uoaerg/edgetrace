@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"net"
 	"time"
+	"flag"
 
 	"golang.org/x/net/ipv4"
 	"gopkg.in/cheggaaa/pb.v1"
@@ -18,6 +19,7 @@ type TokenCookie struct {
 	Time  string `json:"time"`
 	Token string `json:"token"`
 	DSCP  int    `json:"dscp"`
+	Description string `json:"description"`
 }
 
 type DSCP struct {
@@ -53,6 +55,10 @@ func main() {
 		{Name:"AF43", Value:0x26},
 	}
 
+	description := flag.String("description", "Not given", "BTWifi on a Bus")
+	flag.Parse()
+	fmt.Println("description:", *description)
+
 	fmt.Printf("connecting to %s .  .  . ", url)
 	res, err := http.Get(url)
 	if err != nil {
@@ -67,14 +73,24 @@ func main() {
 		log.Fatal(err)
 	}
 
+	if res.StatusCode != 200 {
+		fmt.Printf("Server returned %v please try running this tool another time\n", res.StatusCode)
+		//fmt.Prinfln(data)
+		return
+	}
+
 	var token TokenCookie
 	err = json.Unmarshal(data, &token)
 
 	if err != nil {
+		fmt.Println("Server didn't return a valid token, you may have to pass a captive portal")
 		fmt.Println("error:", err)
+		fmt.Println(data)
+		return
 	}
 
 	fmt.Printf("received token:\n %+v\n", token)
+	token.Description = *description
 
 	conn, err := net.Dial("udp", "trace.enoti.me:60606")
 
