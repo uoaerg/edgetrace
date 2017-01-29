@@ -102,7 +102,7 @@ func main() {
     for _, mark := range dscp_map {
 		token.DSCP = mark.Value
 
-		if err := ipv4.NewConn(conn).SetTOS(token.DSCP); err != nil {
+		if err := ipv4.NewConn(conn).SetTOS(token.DSCP << 2); err != nil {
 			fmt.Printf("Some error %v", err)
 			return
 		}
