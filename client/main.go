@@ -9,6 +9,7 @@ import (
 	"net"
 	"time"
 	"flag"
+	"runtime"
 
 	"golang.org/x/net/ipv4"
 	"gopkg.in/cheggaaa/pb.v1"
