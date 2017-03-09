@@ -2,7 +2,7 @@ package main
 
 import (
 	"crypto/sha1"
-	"encoding/base64"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -29,7 +29,7 @@ func calcsekret(host string, time string, salt string) string {
 	hash := sha1.New()
 	hash.Write([]byte(token))
 
-	return base64.StdEncoding.EncodeToString(hash.Sum(nil))
+	return hex.EncodeToString(hash.Sum(nil))
 }
 
 func start(res http.ResponseWriter, req *http.Request) {
