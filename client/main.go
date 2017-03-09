@@ -19,7 +19,9 @@ type TokenCookie struct {
 	Time  string `json:"time"`
 	Token string `json:"token"`
 	DSCP  int    `json:"dscp"`
+	TTL   int    `json:"ttl"`
 	Description string `json:"description"`
+	OS string `json:"os"`
 }
 
 type DSCP struct {
@@ -27,9 +29,10 @@ type DSCP struct {
 	Value int
 }
 
-
 func main() {
+	//url := "http://trace.erg.abdn.ac.uk/start"
 	url := "http://trace.enoti.me/start"
+	port := "60606"
 
 	dscp_map := [21]DSCP{
 		{Name:"BE",   Value:0x00},
@@ -55,7 +58,7 @@ func main() {
 		{Name:"AF43", Value:0x26},
 	}
 
-	description := flag.String("description", "Not given", "BTWifi on a Bus")
+	description := flag.String("description", "Not given", "Wifi on a Bus")
 	flag.Parse()
 	fmt.Println("description:", *description)
 
@@ -75,7 +78,6 @@ func main() {
 
 	if res.StatusCode != 200 {
 		fmt.Printf("Server returned %v please try running this tool another time\n", res.StatusCode)
-		//fmt.Prinfln(data)
 		return
 	}
 
@@ -91,8 +93,11 @@ func main() {
 
 	fmt.Printf("received token:\n %+v\n", token)
 	token.Description = *description
+	token.TTL = 64
+	token.OS = runtime.GOOS
 
-	conn, err := net.Dial("udp", "trace.enoti.me:60606")
+	//conn, err := net.Dial("udp", "trace.enoti.me:60606")
+	conn, err := net.Dial("udp", url + ":" + port)
 
 	start := time.Now()
 	send_count := 10
