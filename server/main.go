@@ -103,7 +103,7 @@ func udplisten() {
 		recv_token := calcsekret(token.Host, token.Time, salt)
 
 		if recv_token == token.Token {
-			fmt.Printf("UDP DATAGRAM from: %v: %v\n", addr, token)
+			fmt.Printf("UDP DATAGRAM from: %v: %+v\n", addr, token)
 		}
 
         if err != nil {
