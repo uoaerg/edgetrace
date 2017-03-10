@@ -31,9 +31,9 @@ type DSCP struct {
 }
 
 func main() {
-	//url := "http://trace.erg.abdn.ac.uk/start"
-	url := "http://trace.enoti.me/start"
+	url := "http://trace.erg.abdn.ac.uk/start"
 	port := "60606"
+	send_count := 10
 
 	dscp_map := [21]DSCP{
 		{Name:"BE",   Value:0x00},
@@ -101,10 +101,9 @@ func main() {
 	conn, err := net.Dial("udp", url + ":" + port)
 
 	start := time.Now()
-	send_count := 10
 
 	fmt.Println("Sending Datagrams")
-	bar := pb.StartNew(10 * len(dscp_map))
+	bar := pb.StartNew(send_count * len(dscp_map))
     for _, mark := range dscp_map {
 		token.DSCP = mark.Value
 
