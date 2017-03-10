@@ -9,6 +9,7 @@ import (
 	"net"
 	"time"
 	"flag"
+	"runtime"
 
 	"golang.org/x/net/ipv4"
 	"gopkg.in/cheggaaa/pb.v1"
@@ -19,7 +20,9 @@ type TokenCookie struct {
 	Time  string `json:"time"`
 	Token string `json:"token"`
 	DSCP  int    `json:"dscp"`
+	TTL   int    `json:"ttl"`
 	Description string `json:"description"`
+	OS string `json:"os"`
 }
 
 type DSCP struct {
@@ -27,9 +30,10 @@ type DSCP struct {
 	Value int
 }
 
-
 func main() {
-	url := "http://trace.enoti.me/start"
+	url := "http://trace.erg.abdn.ac.uk/start"
+	port := "60606"
+	send_count := 10
 
 	dscp_map := [21]DSCP{
 		{Name:"BE",   Value:0x00},
@@ -55,7 +59,7 @@ func main() {
 		{Name:"AF43", Value:0x26},
 	}
 
-	description := flag.String("description", "Not given", "BTWifi on a Bus")
+	description := flag.String("description", "Not given", "Wifi on a Bus")
 	flag.Parse()
 	fmt.Println("description:", *description)
 
@@ -75,7 +79,6 @@ func main() {
 
 	if res.StatusCode != 200 {
 		fmt.Printf("Server returned %v please try running this tool another time\n", res.StatusCode)
-		//fmt.Prinfln(data)
 		return
 	}
 
@@ -91,18 +94,20 @@ func main() {
 
 	fmt.Printf("received token:\n %+v\n", token)
 	token.Description = *description
+	token.TTL = 64
+	token.OS = runtime.GOOS
 
-	conn, err := net.Dial("udp", "trace.enoti.me:60606")
+	//conn, err := net.Dial("udp", "trace.enoti.me:60606")
+	conn, err := net.Dial("udp", url + ":" + port)
 
 	start := time.Now()
-	send_count := 10
 
 	fmt.Println("Sending Datagrams")
-	bar := pb.StartNew(10 * len(dscp_map))
+	bar := pb.StartNew(send_count * len(dscp_map))
     for _, mark := range dscp_map {
 		token.DSCP = mark.Value
 
-		if err := ipv4.NewConn(conn).SetTOS(token.DSCP); err != nil {
+		if err := ipv4.NewConn(conn).SetTOS(token.DSCP << 2); err != nil {
 			fmt.Printf("Some error %v", err)
 			return
 		}
@@ -117,8 +122,8 @@ func main() {
 			time.Sleep(time.Millisecond * 200)
 			bar.Increment()
 		}
-		bar.Finish()
 	}
+	bar.Finish()
 	conn.Close()
 
 	fmt.Printf("%v Datagrams representing %v DSCP Marks sent in %v\n", 
