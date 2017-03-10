@@ -31,7 +31,8 @@ type DSCP struct {
 }
 
 func main() {
-	url := "http://trace.erg.abdn.ac.uk/start"
+	url := "https://trace.erg.abdn.ac.uk/start"
+	host := "trace.erg.abdn.ac.uk"
 	port := "60606"
 	send_count := 10
 
@@ -97,8 +98,11 @@ func main() {
 	token.TTL = 64
 	token.OS = runtime.GOOS
 
-	//conn, err := net.Dial("udp", "trace.enoti.me:60606")
-	conn, err := net.Dial("udp", url + ":" + port)
+	conn, err := net.Dial("udp", host + ":" + port)
+	if err != nil {
+		fmt.Printf("error creating UDP flow: %v", err)
+		return
+	}
 
 	start := time.Now()
 
@@ -108,12 +112,12 @@ func main() {
 		token.DSCP = mark.Value
 
 		if err := ipv4.NewConn(conn).SetTOS(token.DSCP << 2); err != nil {
-			fmt.Printf("Some error %v", err)
+			fmt.Printf("Error creating connection: %v", err)
 			return
 		}
 
 		if err != nil {
-			fmt.Printf("Some error %v", err)
+			fmt.Printf("error %v", err)
 			return
 		}
 
