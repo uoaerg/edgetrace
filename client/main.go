@@ -35,6 +35,9 @@ func main() {
 	host := "trace.erg.abdn.ac.uk"
 	port := "60606"
 	send_count := 10
+	packets_per_second := 5
+
+	send_interval := time.Duration((1 / float32(packets_per_second)) * 1000)
 
 	dscp_map := [21]DSCP{
 		{Name:"BE",   Value:0x00},
@@ -62,7 +65,7 @@ func main() {
 
 	description := flag.String("description", "Not given", "Wifi on a Bus")
 	flag.Parse()
-	fmt.Println("description:", *description)
+	fmt.Println("Edge connection description:", *description)
 
 	fmt.Printf("connecting to %s .  .  . ", url)
 	res, err := http.Get(url)
@@ -123,14 +126,14 @@ func main() {
 
 		for i := 1; i <= send_count ; i++ {	
 			json.NewEncoder(conn).Encode(token)
-			time.Sleep(time.Millisecond * 200)
+			time.Sleep(time.Millisecond * send_interval)
 			bar.Increment()
 		}
 	}
 	bar.Finish()
 	conn.Close()
 
-	fmt.Printf("%v Datagrams representing %v DSCP Marks sent in %v\n", 
+	fmt.Printf("Sent %v Datagrams representing %v DSCP Marks sent in %v\n", 
 		len(dscp_map) * send_count,
 		len(dscp_map), 
 		time.Since(start))
