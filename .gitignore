@@ -1,0 +1,5 @@
+server/generated/*
+server/generated/bin/*
+
+!server/generated/.gitkeep
+!server/generated/bin/.gitkeep
