@@ -117,7 +117,7 @@ func main() {
 
 	//http.HandleFunc("/", index)
 	http.HandleFunc("/start", start)
-	http.HandleFunc("/", http.FileServer(http.Dir("./static")))
+	http.Handle("/", http.FileServer(http.Dir("./static")))
 	
 	fmt.Println("Starting up Web Server, listening on port: 4000")
 	go http.ListenAndServe(":4000", nil)
