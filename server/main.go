@@ -115,8 +115,9 @@ func udplisten() {
 func main() {
 	salt = string(rand.Intn(0xFFFFFFFF))
 
-	http.HandleFunc("/", index)
+	//http.HandleFunc("/", index)
 	http.HandleFunc("/start", start)
+	http.HandleFunc("/", http.FileServer(http.Dir("./static")))
 	
 	fmt.Println("Starting up Web Server, listening on port: 4000")
 	go http.ListenAndServe(":4000", nil)
