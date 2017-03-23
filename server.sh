@@ -1,3 +1,4 @@
 #!/bin/sh
 
-server/server | tee -a /home/tom/mnt/log/packetlog.log   
+cd server
+./server | tee -a /home/andre/mnt/log/packetlog.log   
