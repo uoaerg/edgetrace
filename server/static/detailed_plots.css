@@ -1,0 +1,43 @@
+/*body {
+    background-image: url('https://scontent.xx.fbcdn.net/v/t31.0-8/11084015_567018516735046_3740768283059988941_o.jpg?oh=91d34860d9f2c952cf8f6f2325462cbe&oe=592EA2C6');
+}*/
+
+#logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+#imageDiv_title {
+    text-align: center;
+    font-size: 16pt;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+#imageDiv_info {
+    text-align: center;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.gallery {
+    width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gallery figure {
+    display: inline-block;
+    width: 350px;
+    margin: 0;
+}
+
+.gallery figure figcaption {
+    text-align: center;
+}
+
+.gallery figure img {
+    width: 350px;
+}

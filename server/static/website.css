@@ -1,0 +1,138 @@
+/*body {
+    background-image: url('https://scontent.xx.fbcdn.net/v/t31.0-8/11084015_567018516735046_3740768283059988941_o.jpg?oh=91d34860d9f2c952cf8f6f2325462cbe&oe=592EA2C6');
+}
+
+#nav {
+    text-align:center;
+    list-style-type: none;
+    background : pink;
+    width:100%;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+#nav li {
+    display: inline-block;
+}
+
+#nav li a {
+    color: #055;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    width: 80px;
+    padding: 5px;
+}
+
+#nav li a:hover { 
+    background-color: yellow;
+}*/
+
+#logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+#mapid {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    
+    width: 500px;
+    height: 200px;
+}
+
+#imageSummary_title {
+    text-align: center;
+    font-size: 12pt;
+    margin-top: 20px;
+    padding: 0;
+}
+
+#imageSummary {
+    display: block;
+    margin: 0;
+    padding: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 700px;
+}
+
+#detailed_plots_link {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+#detailed_plots_link a {
+    font-size: 10pt;
+    padding: 0;
+    margin: 0;
+}
+
+#binaries {
+    text-align:center;
+}
+
+#binaries div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#binaries div p {
+    margin: 0;
+    margin-top: 10px;
+    padding: 0;
+}
+
+#binaries div img {
+    margin: 0;
+    padding: 0;
+}
+
+#binaries div ul {
+    text-align:center;
+    list-style-type: none;
+    background : none;
+    width:20%;
+    padding: 0;
+    margin: 0;
+}
+
+#binaries div ul li {
+    display: block;
+}
+
+#binaries div ul li a {
+    color: #055;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    width: 80px;
+    padding: 5px;
+}
+
+#binaries div ul li a:hover { 
+    background-color: yellow;
+}
+
+#not_Windows_explanation {
+    text-align: center;
+    font-size: 8pt;
+    margin: 0;
+    padding: 0;
+}
+
+#credit_link {
+    text-align:center;
+    padding: 0;
+    margin: 0;
+}
+
+#credit_link a {
+    font-size: 8pt;
+    padding: 0;
+    margin: 0;
+}
