@@ -39,7 +39,7 @@ func main() {
 
 	send_interval := time.Duration((1 / float32(packets_per_second)) * 1000)
 
-	dscp_map := [21]DSCP{
+	dscp_map := [26]DSCP{
 		{Name:"BE",   Value:0x00},
 		{Name:"UK",   Value:0x01},
 		{Name:"UK",   Value:0x02},
