@@ -39,7 +39,7 @@ func main() {
 
 	send_interval := time.Duration((1 / float32(packets_per_second)) * 1000)
 
-	dscp_map := [26]DSCP{
+	dscp_map := [27]DSCP{
 		{Name:"BE",   Value:0x00},
 		{Name:"UK",   Value:0x01},
 		{Name:"UK",   Value:0x02},
@@ -66,6 +66,7 @@ func main() {
 		{Name:"AF41", Value:0x22},
 		{Name:"AF42", Value:0x24},
 		{Name:"AF43", Value:0x26},
+		{Name:"VO",   Value:0x2c},
 	}
 
 	description := flag.String("description", "Not given", "Wifi on a Bus")
