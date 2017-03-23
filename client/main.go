@@ -41,6 +41,11 @@ func main() {
 
 	dscp_map := [21]DSCP{
 		{Name:"BE",   Value:0x00},
+		{Name:"UK",   Value:0x01},
+		{Name:"UK",   Value:0x02},
+		{Name:"UK",   Value:0x04},
+		{Name:"UK",   Value:0x06},
+		{Name:"UK",   Value:0x05},
 		{Name:"EF",   Value:0x2e},
 		{Name:"CS1",  Value:0x08},
 		{Name:"CS2",  Value:0x10},
